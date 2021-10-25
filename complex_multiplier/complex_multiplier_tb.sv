@@ -7,7 +7,8 @@ results and the reference result.
 
 The code is distributed under The MIT License
 Copyright (c) 2021 Andrey Smolyakov
-See LICENSE.md for details
+    (andreismolyakow 'at' gmail 'punto' com)
+See LICENSE for the complete license text
 */
 
 `timescale 1ns / 1ps
