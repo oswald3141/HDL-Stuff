@@ -76,23 +76,23 @@ class complex;
         this.im = im;
     endfunction
     
-    static function bit signed_arith::equal (a_t a, b_t b);
+    function bit signed_arith::equal (a_t a, b_t b);
         bit re_eq = a.re == b.re;
         bit im_eq = a.im == b.im;
         return (re_eq & im_eq);
     endfunction : signed_arith::equal
     
-    static function signed_arith::add_res_t signed_arith::add(a_t a, b_t b);
+    function signed_arith::add_res_t signed_arith::add(a_t a, b_t b);
         add_res_t res = new(a.re + b.re, a.im + b.im);
         return res;
     endfunction : signed_arith::add
     
-    static function signed_arith::add_res_t signed_arith::substract(a_t a, b_t b);
+    function signed_arith::add_res_t signed_arith::substract(a_t a, b_t b);
         b_t neg_b = new(-b.re, -b.im);
         return add(a, neg_b);
     endfunction : signed_arith::substract
     
-    static function signed_arith::mlt_res_t signed_arith::multiply(a_t a, b_t b);      
+    function signed_arith::mlt_res_t signed_arith::multiply(a_t a, b_t b);      
         mlt_res_t res = new(a.re*b.re - a.im*b.im, a.im*b.re + a.re*b.im);
         return res;
     endfunction : signed_arith::multiply
@@ -103,30 +103,30 @@ class complex;
         this.im = im;
     endfunction
         
-    static function integer_ integer_::add(integer_ a, b);
+    function integer_ integer_::add(integer_ a, b);
         integer_ c = new(a.re + b.re, a.im + b.im);
         return c;
     endfunction : integer_::add
     
-    static function bit integer_::equal (integer_ a,b);
+    function bit integer_::equal (integer_ a,b);
         bit re_eq = a.re == b.re;
         bit im_eq = a.im == b.im;
         return (re_eq & im_eq);
     endfunction : integer_::equal
     
-    static function integer_ integer_::substract(integer_ a, b);
+    function integer_ integer_::substract(integer_ a, b);
         integer_ c = new(a.re - a.im, b.re - b.im);
         return c;
     endfunction : integer_::substract
     
-    static function integer_ integer_::multiply(integer_ a, b);
+    function integer_ integer_::multiply(integer_ a, b);
         integer re = a.re*b.re - a.im*b.im;
         integer im = a.im*b.re + a.re*b.im;
         integer_ c = new(re, im);
         return c;
     endfunction : integer_::multiply
     
-    static function integer_ integer_::divide(integer_ a, b);
+    function integer_ integer_::divide(integer_ a, b);
         integer re = (a.re*b.re + a.im*b.im)/(b.re**2 + b.im**2);
         integer im = (a.im*b.re - a.re*b.im)/(b.re**2 + b.im**2);
         integer_ c = new(re, im);
@@ -139,7 +139,7 @@ class complex;
         this.im = im;
     endfunction
     
-    static function bit real_::equal (real_ a,b, real tol);
+    function bit real_::equal (real_ a,b, real tol);
         real re_diff = (a.re < b.re) ? b.re - a.re : a.re - b.re;
         real im_diff = (a.im < b.im) ? b.im - a.im : a.im - b.im;
         bit re_eq = re_diff <= tol;
@@ -147,24 +147,24 @@ class complex;
         return (re_eq & im_eq);
     endfunction : real_::equal
     
-    static function real_ real_::add(real_ a, b);
+    function real_ real_::add(real_ a, b);
         real_ c = new(a.re + b.re, a.im + b.im);
         return c;
     endfunction : real_::add
     
-    static function real_ real_::substract(real_ a, b);
+    function real_ real_::substract(real_ a, b);
         real_ c = new(a.re - a.im, b.re - b.im);
         return c;
     endfunction : real_::substract
     
-    static function real_ real_::multiply(real_ a, b);
+    function real_ real_::multiply(real_ a, b);
         real re = a.re*b.re - a.im*b.im;
         real im = a.im*b.re + a.re*b.im;
         real_ c = new(re, im);
         return c;
     endfunction : real_::multiply
     
-    static function real_ real_::divide(real_ a, b);
+    function real_ real_::divide(real_ a, b);
         real re = (a.re*b.re + a.im*b.im)/(b.re**2 + b.im**2);
         real im = (a.im*b.re - a.re*b.im)/(b.re**2 + b.im**2);
         real_ c = new(re, im);
