@@ -29,6 +29,7 @@ class complex;
         const component_t re, im;
         
         extern function new(component_t re, im);
+        extern function signed_#(WIDTH) conjugate();
     endclass : signed_
     
     class signed_arith #(integer unsigned A_WIDTH, B_WIDTH);
@@ -56,6 +57,7 @@ class complex;
         extern static function integer_ substract (integer_ a, b);
         extern static function integer_ multiply  (integer_ a, b);
         extern static function integer_ divide    (integer_ a, b); 
+        extern        function integer_ conjugate ();
     endclass : integer_
     
     class real_;
@@ -67,6 +69,7 @@ class complex;
         extern static function real_ substract (real_ a, b);
         extern static function real_ multiply  (real_ a, b);
         extern static function real_ divide    (real_ a, b); 
+        extern        function real_ conjugate ();
     endclass : real_
 
     // Implementations 
@@ -75,6 +78,15 @@ class complex;
         this.re = re;
         this.im = im;
     endfunction
+    
+    function signed_#(signed_::WIDTH) signed_::conjugate();
+        component_t max_pos = 2**(WIDTH-1)-1;
+        bit is_im_min_neg = im[WIDTH-1] & !(|im[WIDTH-1-1:0]);
+        
+        component_t im_n = is_im_min_neg ? max_pos : -im;        
+        signed_#(WIDTH) c = new(re, im_n);
+        return c;
+    endfunction : signed_::conjugate
     
     function bit signed_arith::equal (a_t a, b_t b);
         bit re_eq = a.re == b.re;
@@ -102,7 +114,7 @@ class complex;
         this.re = re;
         this.im = im;
     endfunction
-        
+
     function integer_ integer_::add(integer_ a, b);
         integer_ c = new(a.re + b.re, a.im + b.im);
         return c;
@@ -132,6 +144,14 @@ class complex;
         integer_ c = new(re, im);
         return c;
     endfunction : integer_::divide
+    
+    function integer_ integer_::conjugate();
+        int max_pos =  2**(32-1)-1;
+        int min_neg = -2**(32-1);
+        int im_n = (im == min_neg) ? max_pos : -im;
+        integer_ c = new(re, im_n);
+        return c;
+    endfunction : integer_::conjugate
 
     // Real
     function real_::new(real re, im);
@@ -170,7 +190,12 @@ class complex;
         real_ c = new(re, im);
         return c;
     endfunction : real_::divide
-
+    
+    function real_ real_::conjugate();
+        real_ c = new(re,-im);
+        return c;
+    endfunction : real_::conjugate
+    
 endclass : complex
 
 `endif
