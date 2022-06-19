@@ -61,18 +61,18 @@ architecture rtl of complex_multiplier is
     constant RE_WIDTH : natural := max(RE_RE_WIDTH, IM_IM_WIDTH) + 1;
     constant IM_WIDTH : natural := max(RE_IM_WIDTH, IM_RE_WIDTH) + 1;
 
-    signal a_re_d1, a_re_d2 : signed(a_re'length-1 downto 0);
-    signal a_im_d1, a_im_d2 : signed(a_im'length-1 downto 0);
-    signal b_re_d1, b_re_d2 : signed(b_re'length-1 downto 0);
-    signal b_im_d1, b_im_d2 : signed(b_im'length-1 downto 0);
+    signal a_re_d1, a_re_d2 : signed(a_re'length-1 downto 0) := (others => '0');
+    signal a_im_d1, a_im_d2 : signed(a_im'length-1 downto 0) := (others => '0');
+    signal b_re_d1, b_re_d2 : signed(b_re'length-1 downto 0) := (others => '0');
+    signal b_im_d1, b_im_d2 : signed(b_im'length-1 downto 0) := (others => '0');
 
-    signal are_bre : signed(RE_RE_WIDTH-1 downto 0);
-    signal aim_bim : signed(IM_IM_WIDTH-1 downto 0);
-    signal are_bim : signed(RE_IM_WIDTH-1 downto 0);
-    signal aim_bre : signed(IM_RE_WIDTH-1 downto 0);
+    signal are_bre : signed(RE_RE_WIDTH-1 downto 0) := (others => '0');
+    signal aim_bim : signed(IM_IM_WIDTH-1 downto 0) := (others => '0');
+    signal are_bim : signed(RE_IM_WIDTH-1 downto 0) := (others => '0');
+    signal aim_bre : signed(IM_RE_WIDTH-1 downto 0) := (others => '0');
 
-    signal c_re_s : signed(RE_WIDTH-1 downto 0);
-    signal c_im_s : signed(IM_WIDTH-1 downto 0);
+    signal c_re_s : signed(RE_WIDTH-1 downto 0) := (others => '0');
+    signal c_im_s : signed(IM_WIDTH-1 downto 0) := (others => '0');
 
 begin
 
