@@ -20,6 +20,7 @@ See LICENSE for the complete license text
 `timescale 1ns / 1ps
 `default_nettype none
 
+// (* use_dsp = "yes" *)
 module complex_multiplier
 import complex::*;
 #(
