@@ -28,11 +28,11 @@ package complex;
 
 // Use for your own types
 virtual class generic_;
-    virtual class unp#(type T);
+    virtual class unp#(type T = real);
         typedef struct {rand T re, im;} _t;
     endclass
     
-    virtual class p#(type T);
+    virtual class p#(type T = int);
         typedef struct packed {T re, im;} _t;
     endclass
 endclass
