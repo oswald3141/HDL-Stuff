@@ -40,34 +40,34 @@ localparam CLK_PERIOD = 4;
 always #(CLK_PERIOD/2) clk = ~clk;
 
 always @(posedge clk) begin : input_gen
-	automatic a_t a_tmp = '0;
-	automatic b_t b_tmp = '0;
-	
-	assert(std::randomize(a_tmp, b_tmp));
-	
-	a_in <= a_tmp;
-	b_in <= b_tmp;
-	c_ref <= complex::mlt(a_tmp, b_tmp);
+    automatic a_t a_tmp = '0;
+    automatic b_t b_tmp = '0;
+
+    assert(std::randomize(a_tmp, b_tmp));
+
+    a_in <= a_tmp;
+    b_in <= b_tmp;
+    c_ref <= complex::mlt(a_tmp, b_tmp);
 end
 
 initial begin : stopper
-	repeat(N_TESTS) @(posedge clk);
-	$display("No incorrect result detected. Test PASSED.");
-	$stop();
+    repeat(N_TESTS) @(posedge clk);
+    $display("No incorrect result detected. Test PASSED.");
+    $stop();
 end
 
 property multiplies_correctly;
-	@(posedge clk)
-	c_out == $past(c_ref, UUT_LATENCY);
+    @(posedge clk)
+    c_out == $past(c_ref, UUT_LATENCY);
 endproperty
 
 assert property(multiplies_correctly) else begin
-	#(CLK_PERIOD/2); // Let the simulator to render waveform
-	$fatal(1, "Incorrect result. Test FAILED.");
+    #(CLK_PERIOD/2); // Let the simulator to render waveform
+    $fatal(1, "Incorrect result. Test FAILED.");
 end
 
 generate case(UUT_VERSION)
-	VHDL_1987: begin
+    VHDL_1987: begin
         complex_multiplier uut (
             .clk (clk),
             .a_re(a_in.re),
@@ -77,29 +77,29 @@ generate case(UUT_VERSION)
             .c_re(c_out.re),
             .c_im(c_out.im)
         );
-	end VHDL_2008: begin
-		complex_multiplier_2008_wrapper
-		#(
-			.a_comp_width(A_WIDTH),
-			.b_comp_width(B_WIDTH)
-		) uut (
-			.clk(clk),
-			.a_in(a_in),
-			.b_in(b_in),
-			.c_out(c_out)
-		);
-	end SV: begin
-		complex_multiplier
-		#(
-			.A_WIDTH(A_WIDTH),
-			.B_WIDTH(B_WIDTH)
-		) uut (
-			.clk(clk),
-			.a_i(a_in),
-			.b_i(b_in),
-			.c_o(c_out)
-		);
-	end
+    end VHDL_2008: begin
+        complex_multiplier_2008_wrapper
+        #(
+            .a_comp_width(A_WIDTH),
+            .b_comp_width(B_WIDTH)
+        ) uut (
+            .clk(clk),
+            .a_in(a_in),
+            .b_in(b_in),
+            .c_out(c_out)
+        );
+    end SV: begin
+        complex_multiplier
+        #(
+            .A_WIDTH(A_WIDTH),
+            .B_WIDTH(B_WIDTH)
+        ) uut (
+            .clk(clk),
+            .a_i(a_in),
+            .b_i(b_in),
+            .c_o(c_out)
+        );
+    end
 endcase endgenerate;
 
 endmodule
